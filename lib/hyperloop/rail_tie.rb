@@ -33,11 +33,15 @@ module Hyperloop
             #   config.assets.paths.delete(hps)
             #   config.assets.paths.unshift(hps)
             # end
-            config.assets.paths.unshift ::Rails.root.join('app', 'hyperloop').to_s
-            if Rails.const_defined? 'Hyperloop::Console'
-              config.assets.precompile += %w( hyper-console-client.css )
-              config.assets.precompile += %w( hyper-console-client.min.js )
-              config.assets.precompile += %w( action_cable.js ) if Rails.const_defined? 'ActionCable'
+            if config.respond_to?(:assets)
+              config.assets.paths.unshift ::Rails.root.join('app', 'hyperloop').to_s
+              if Rails.const_defined? 'Hyperloop::Console'
+                config.assets.precompile += %w( hyper-console-client.css )
+                config.assets.precompile += %w( hyper-console-client.min.js )
+                config.assets.precompile += %w( action_cable.js ) if Rails.const_defined? 'ActionCable'
+              end
+            else
+              Opal.append_path ::Rails.root.join('app', 'hyperloop').to_s
             end
          else
             delete_first config.eager_load_paths, "#{config.root}/app/hyperloop/models"
@@ -48,8 +52,9 @@ module Hyperloop
             # delete_first config.autoload_paths, "#{config.root}/app/hyperloop/stores"
             delete_first config.eager_load_paths, "#{config.root}/app/hyperloop/operations"
             delete_first config.autoload_paths, "#{config.root}/app/hyperloop/operations"
-
-            delete_first config.assets.paths, ::Rails.root.join('app', 'hyperloop').to_s
+            if config.respond_to?(:assets)
+              delete_first config.assets.paths, ::Rails.root.join('app', 'hyperloop').to_s
+            end
           end
         end
         super

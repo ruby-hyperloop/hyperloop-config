@@ -9,10 +9,6 @@ if RUBY_ENGINE == 'opal'
 else
   require 'opal'
   require 'opal-browser'
-  begin
-    require 'opal-rails' if defined? Rails
-  rescue LoadError
-  end
   require 'hyperloop/config_settings'
   require 'hyperloop/context'
   require 'hyperloop/imports'
