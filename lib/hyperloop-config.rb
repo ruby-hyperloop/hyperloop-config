@@ -4,7 +4,7 @@ if RUBY_ENGINE == 'opal'
   require 'hyperloop/context'
   require 'hyperloop/js_imports'
   require 'hyperloop/on_client'
-  require 'hyperloop/active_support_string_inquirer.rb'
+  require 'hyperloop/active_support_string_inquirer'
   require 'hyperloop_env'
 else
   require 'opal'
@@ -16,7 +16,7 @@ else
   require 'hyperloop/client_readers'
   require 'hyperloop/on_client'
   require 'hyperloop/rail_tie' if defined? Rails
-  require 'hyperloop/active_support_string_inquirer.rb' unless defined? ActiveSupport
+  require 'hyperloop/active_support_string_inquirer' unless defined? ActiveSupport
   require 'hyperloop/env'
   require 'hyperloop/on_error'
   Hyperloop.import 'opal', gem: true
